@@ -1,50 +1,95 @@
-from department import Department
 class Hospital:
-    """
-    Class for managing hospital operations and its departments.
-
-    Attributes:
-        name (str): The name of the hospital.
-        location (str): The physical address or city of the hospital.
-        departments (list): A list of Department objects associated with the hospital.
-    """
-
-    def __init__(self, name: str, location: str) -> None:
+    """Main Hospital class that contains departments"""
+    
+    def __init__(self, name, location):
         """
-        Initialize a Hospital object.
-
+        Initialize a hospital
+        
         Args:
-            name (str): Name of the hospital.
-            location (str): Location of the hospital.
+            name (str): Hospital name
+            location (str): Hospital location
         """
         self.name = name
         self.location = location
-        self.departments = []  # List to hold Department objects
-        
-    def __str__(self) -> str:
-        """
-        User-friendly string representation.
-        Summarizes the hospital and the count of departments.
-        """
-        dept_count = len(self.departments)
-        return (f"Hospital: {self.name} | Location: {self.location} "
-                f"| Departments: {dept_count}")
-
-    def __repr__(self) -> str:
-        """
-        Official string representation for debugging.
-        Shows the state required to recreate the object.
-        """
-        return f"Hospital(name={self.name!r}, location={self.location!r}, departments={self.departments!r})"
-
-    def add_department(self, department : Department) -> None:
-        """
-        Add a department to the hospital.
-
-        Args:
-            department (Department): The Department instance to be added.
-        """
-        self.departments.append(department)
-        print(f"Department '{department.name}' added to {self.name}.")
-
+        self.departments = []  
     
+    def add_department(self, department):
+        """
+        Add a department to the hospital
+        
+        Args:
+            department (Department): Department object to add
+        """
+        if department not in self.departments:
+            self.departments.append(department)
+            print(f" Department '{department.name}' added to {self.name}")
+        else:
+            print(f" Department '{department.name}' already exists in {self.name}")
+    
+    def remove_department(self, department_name):
+        """
+        Remove a department from the hospital
+        
+        Args:
+            department_name (str): Name of department to remove
+        """
+        for dept in self.departments:
+            if dept.name == department_name:
+                self.departments.remove(dept)
+                print(f" Department '{department_name}' removed from {self.name}")
+                return True
+        print(f" Department '{department_name}' not found")
+        return False
+    
+    def find_department(self, department_name):
+        """
+        Find a department by name
+        
+        Args:
+            department_name (str): Name of department to find
+            
+        Returns:
+            Department: Department object if found, None otherwise
+        """
+        for dept in self.departments:
+            if dept.name == department_name:
+                return dept
+        return None
+    
+    def list_departments(self):
+        """List all departments in the hospital"""
+        print(f"\n Departments in {self.name}:")
+        if not self.departments:
+            print("  No departments")
+        else:
+            for i, dept in enumerate(self.departments, 1):
+                print(f"  {i}. {dept}")
+        return len(self.departments)
+    
+    def get_total_patients(self):
+        """Get total number of patients in all departments"""
+        total = 0
+        for dept in self.departments:
+            total += dept.get_patient_count()
+        return total
+    
+    def get_total_staff(self):
+        """Get total number of staff in all departments"""
+        total = 0
+        for dept in self.departments:
+            total += dept.get_staff_count()
+        return total
+    
+    def view_hospital_info(self):
+        """Display hospital information"""
+        print("\n" + "="*50)
+        print(f"HOSPITAL: {self.name}")
+        print(f"Location: {self.location}")
+        print(f"Total Departments: {len(self.departments)}")
+        print(f"Total Patients: {self.get_total_patients()}")
+        print(f"Total Staff: {self.get_total_staff()}")
+        print("="*50)
+    
+    def __str__(self):
+        """String representation"""
+        return f"Hospital: {self.name} | Location: {self.location} | Departments: {len(self.departments)}"
