@@ -8,11 +8,11 @@ class Person:
     other classes like Patient and Staff.
 
     Attributes:
-        name (str): The name of the person. Cannot be empty.
-        age (int): The age of the person.
+        name (str): The name of the person. Cannot be empty or whitespace.
+        age (int): The age of the person. Must be a non-negative integer.
     """
-    
-    def __init__(self, name : str, age : int)-> None:
+
+    def __init__(self, name: str, age: int) -> None:
         """
         Initialize a Person object.
 
@@ -21,42 +21,44 @@ class Person:
             age (int): The age of the person.
 
         Raises:
-            ValueError: If the name is empty or age is negative.
-            TypeError: If age is not an integer.
+            TypeError: If name is not a string or age is not an integer.
+            ValueError: If name is empty/whitespace or age is negative.
         """
-        if not name:
-            raise ValueError("Name cannot be empty")
+        if not isinstance(name, str):
+            raise TypeError("Name must be a string")
+        if not name.strip():
+            raise ValueError("Name cannot be empty or whitespace")
         if not isinstance(age, int):
             raise TypeError("Age must be an integer")
         if age < 0:
             raise ValueError("Age cannot be negative")
-        
-        self.name = name
+
+        self.name = name.strip()
         self.age = age
-        
-    def __str__(self)-> str:
+
+    def __str__(self) -> str:
         """
         Return a user-friendly string representation of the person.
 
         Returns:
             str: A formatted string containing the person's name and age.
         """
-        return f"Person Name : {self.name} , person Age: {self.age}"
-    
-    def __repr__(self)-> str:
+        return f"Person Name: {self.name}, Age: {self.age}"
+
+    def __repr__(self) -> str:
         """
-        Return a string representation of the person object for debugging.
+        Return a developer-friendly string representation of the person.
 
         Returns:
             str: A detailed string representation of the person object.
         """
-        return f"Person Name : {self.name} , person Age: {self.age}"
+        return f"Person(name={self.name!r}, age={self.age})"
 
-    def view_info(self)-> str:
+    def view_info(self) -> str:
         """
         View basic information about the person.
 
         Returns:
             str: A formatted string containing the person's basic information.
         """
-        return f"Person Name : {self.name} , person Age: {self.age}"
+        return f"Name: {self.name}, Age: {self.age}"
