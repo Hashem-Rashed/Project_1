@@ -20,7 +20,7 @@ The system manages hospitals, departments, patients, and staff with proper valid
 
 ## Project Structure
 
-Hospital_system/
+Project_1(Hospital_system)/
 │
 ├── core/
 │   ├── __init__.py
@@ -32,9 +32,6 @@ Hospital_system/
 │   ├── person.py
 │   ├── patient.py
 │   └── staff.py
-│
-├── utils/
-│   └── __init__.py
 │
 ├── docs/
 │   └── hospital_uml.png
