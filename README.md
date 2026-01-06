@@ -26,20 +26,25 @@ Hospital_system/
 ├── core/
 │   ├── __init__.py
 │   ├── hospital.py
-│   └── department.py
+│   ├── department.py
+│   └── .gitignore
 │
 ├── models/
 │   ├── __init__.py
 │   ├── person.py
 │   ├── patient.py
-│   └── staff.py
+│   ├── staff.py
+│   └── .gitignore
+│
+├── utils/
+│   └── __init__.py
 │
 ├── docs/
 │   └── hospital_uml.png
-│
-├── .gitignore   
+│  
 ├── main.py
 └── README.md
+
 
 ## Design Rules
 
