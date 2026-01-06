@@ -1,4 +1,3 @@
-
 # 🏥 Hospital Management System
 
 A simple and structured **Hospital Management System** built using **Python (OOP principles)**.  
@@ -26,91 +25,61 @@ Hospital_system/
 ├── core/
 │   ├── __init__.py
 │   ├── hospital.py
-<<<<<<< HEAD
-│   ├── department.py
-│   └── .gitignore
-=======
 │   └── department.py
->>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
 │
 ├── models/
 │   ├── __init__.py
 │   ├── person.py
 │   ├── patient.py
-<<<<<<< HEAD
-│   ├── staff.py
-│   └── .gitignore
+│   └── staff.py
 │
 ├── utils/
 │   └── __init__.py
 │
 ├── docs/
 │   └── hospital_uml.png
-│  
+│
 ├── main.py
 └── README.md
 
+---
 
-=======
-│   └── staff.py
-│
-├── docs/
-│   └── hospital_uml.png
-│
-├── .gitignore   
-├── main.py
-└── README.md
-
->>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
 ## Design Rules
 
 - A hospital must be created before any operation
-
 - At least one department must exist before adding patients or staff
-
 - Patients and staff must be checked-in to perform any operation
-
 - Medical records cannot be empty
-
 - Input validation is applied for:
-
   - Dates
   - Menu choices
+
+---
 
 ## Technologies Used
 
 - Python
-
 - Object-Oriented Programming (OOP)
-
 - UML (Class Diagram)
-
 - Command Line Interface (CLI)
+
+---
 
 ## Future Improvements
 
 - Graphical User Interface (GUI)
-
 - Database integration
-
 - User authentication (Admin / Doctor)
-
 - Export medical records to files
+
+---
 
 ## Authors
 
-[Github_Rebo](https://github.com/Hashem-Rashed/Project_1)
+[Github Repo](https://github.com/Hashem-Rashed/Project_1)
 
 - Randa Hamada El Nagar
-
 - Enas Essam Mohamed
-
 - Hashem Abdelrahman Abdelkhalek
-
 - Ahmed Magdy Morad
-
-<<<<<<< HEAD
 - Hossam Ashraf Saed
-=======
-- Hossam Ashraf Saed
->>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
