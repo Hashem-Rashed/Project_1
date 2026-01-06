@@ -1,6 +1,6 @@
 from datetime import date
-from models import Person
-from models import Patient  # Ensure correct typing
+from .person import Person
+from .patient import Patient  # Ensure correct typing
 
 
 class Staff(Person):

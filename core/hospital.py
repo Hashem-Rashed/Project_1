@@ -1,4 +1,5 @@
 # Hospital_system/core/hospital.py
+from .department import Department
 
 class Hospital:
     """
@@ -53,7 +54,7 @@ class Hospital:
             TypeError: If department is not a Department instance.
             ValueError: If department name is empty or already exists.
         """
-        from Hospital_system.core.department import Department  # avoid circular import
+       
 
         if not isinstance(department, Department):
             raise TypeError("department must be a Department instance.")

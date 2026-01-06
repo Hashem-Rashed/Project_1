@@ -1,6 +1,4 @@
-# Hospital_system/core/department.py
-from core import Patient
-from core import Staff
+# core/department.py
 
 
 class Department:

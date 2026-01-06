@@ -1,4 +1,4 @@
-from models import Person
+from .person import Person
 
 class Patient(Person):
     """
