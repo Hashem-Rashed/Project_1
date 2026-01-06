@@ -26,13 +26,18 @@ Hospital_system/
 ├── core/
 │   ├── __init__.py
 │   ├── hospital.py
+<<<<<<< HEAD
 │   ├── department.py
 │   └── .gitignore
+=======
+│   └── department.py
+>>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
 │
 ├── models/
 │   ├── __init__.py
 │   ├── person.py
 │   ├── patient.py
+<<<<<<< HEAD
 │   ├── staff.py
 │   └── .gitignore
 │
@@ -46,6 +51,17 @@ Hospital_system/
 └── README.md
 
 
+=======
+│   └── staff.py
+│
+├── docs/
+│   └── hospital_uml.png
+│
+├── .gitignore   
+├── main.py
+└── README.md
+
+>>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
 ## Design Rules
 
 - A hospital must be created before any operation
@@ -93,4 +109,8 @@ Hospital_system/
 
 - Ahmed Magdy Morad
 
+<<<<<<< HEAD
 - Hossam Ashraf Saed
+=======
+- Hossam Ashraf Saed
+>>>>>>> 2aba7338047575cb2fb27b134e668ebbb8314a20
