@@ -1,9 +1,5 @@
 from datetime import datetime
-from core.hospital import Hospital
-from core.department import Department
-from models.patient import Patient
-from models.staff import Staff
-
+from Hospital_system.utils import *
 
 def choose_department(hospital):
     """Helper to select a department from the hospital."""
