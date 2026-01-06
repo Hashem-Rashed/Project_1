@@ -1,8 +1,8 @@
 from datetime import datetime
-from Hospital_system.core.hospital import Hospital
-from Hospital_system.core.department import Department
-from Hospital_system.models.patient import Patient
-from Hospital_system.models.staff import Staff
+from core.hospital import Hospital
+from core.department import Department
+from models.patient import Patient
+from models.staff import Staff
 
 
 def choose_department(hospital):
