@@ -1,5 +1,7 @@
-from patient import Patient
-from staff import Staff
+# Hospital_system/core/department.py
+from Hospital_system.models.patient import Patient
+from Hospital_system.models.staff import Staff
+
 
 class Department:
     """

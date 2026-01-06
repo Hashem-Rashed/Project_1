@@ -1,131 +1,216 @@
-from person import Person
-from patient import Patient
-from staff import Staff
-from department import Department
-from hospital import Hospital
+from datetime import datetime
+from Hospital_system.core.hospital import Hospital
+from Hospital_system.core.department import Department
+from Hospital_system.models.patient import Patient
+from Hospital_system.models.staff import Staff
 
-def print_initial_table(hospital):
-    """Print departments with staff and patients in table format."""
-    print("\n🏥 Initial Hospital Overview\n")
-    print(f"{'Department':<15} | {'Staff':<20} | {'Patients':<30}")
-    print("-" * 70)
-    for dept in hospital.departments:
-        staff_names = ", ".join(s.name for s in dept.staff) if dept.staff else "None"
-        patient_names = ", ".join(p.name for p in dept.patients) if dept.patients else "None"
-        print(f"{dept.name:<15} | {staff_names:<20} | {patient_names:<30}")
-    print("-" * 70)
 
-def prefill_hospital(hospital):
-    """Add sample departments, staff, and patients for testing."""
-    # Departments
-    cardio = Department("Cardiology")
-    neuro = Department("Neurology")
-    hospital.add_department(cardio)
-    hospital.add_department(neuro)
+def choose_department(hospital):
+    """Helper to select a department from the hospital."""
+    if not hospital.departments:
+        print("No departments available. Add a department first.")
+        return None
 
-    # Staff
-    cardio.add_staff(Staff("Dr. Smith", 45, "Cardiologist"))
-    cardio.add_staff(Staff("Nurse Jane", 30, "Nurse"))
-    neuro.add_staff(Staff("Dr. Lee", 50, "Neurologist"))
+    print("\nChoose a department:")
+    for idx, dept in enumerate(hospital.departments, 1):
+        print(f"{idx}. {dept.name}")
 
-    # Patients
-    cardio.add_patient(Patient("Alice", 30, "No known allergies"))
-    cardio.add_patient(Patient("Bob", 40, "Diabetic"))
-    neuro.add_patient(Patient("Carol", 25, "Asthma"))
+    choice_str = input("Enter choice number: ").strip()
+    if not choice_str.isdigit():
+        print("Invalid input. Enter a number.")
+        return None
+
+    choice = int(choice_str)
+    if 1 <= choice <= len(hospital.departments):
+        return hospital.departments[choice - 1]
+    else:
+        print("Choice out of range.")
+        return None
+
+
+def choose_member(members, member_type="Member"):
+    """Helper to select a patient or staff member from a list."""
+    if not members:
+        print(f"No {member_type.lower()}s available.")
+        return None
+
+    print(f"\nSelect a {member_type.lower()}:")
+    for idx, m in enumerate(members, 1):
+        print(f"{idx}. {m.name}")
+
+    choice_str = input(f"Enter {member_type} number: ").strip()
+    if not choice_str.isdigit():
+        print("Invalid input. Enter a number.")
+        return None
+
+    choice = int(choice_str)
+    if 1 <= choice <= len(members):
+        return members[choice - 1]
+    else:
+        print("Choice out of range.")
+        return None
+
+
+def input_date(prompt="Enter date (YYYY-MM-DD): "):
+    """Helper to input and validate a date."""
+    date_str = input(prompt).strip()
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        print("Invalid date format. Use YYYY-MM-DD.")
+        return None
+
 
 def main():
-    hospital = Hospital("City Hospital", "123 Main St")
-    prefill_hospital(hospital)
-    print_initial_table(hospital)
+    hospital = None
 
     while True:
-        print("\n===== HOSPITAL MENU =====")
-        print("1. Add Department")
-        print("2. Add Staff to Department")
-        print("3. Add Patient to Department")
-        print("4. Transfer Patient")
-        print("5. View Hospital Summary")
-        print("6. Exit")
-        choice = input("Enter your choice: ")
+        print("\n--- Hospital Management System ---")
+        print("1. Create Hospital")
+        print("2. Add Department")
+        print("3. Add Patient")
+        print("4. Add Staff")
+        print("5. View Hospital Info")
+        print("6. Check-in / Check-out")
+        print("7. Diagnose / Prescribe")
+        print("8. Exit")
+
+        choice = input("Enter your choice: ").strip()
+        if not choice.isdigit():
+            print("Invalid input. Enter a number 1-8.")
+            continue
 
         if choice == "1":
-            name = input("Enter department name: ")
-            dept = Department(name)
-            hospital.add_department(dept)
+            if hospital:
+                print("Hospital already created.")
+            else:
+                name = input("Enter hospital name: ").strip()
+                location = input("Enter hospital location: ").strip()
+                if name and location:
+                    hospital = Hospital(name, location)
+                    print(f"Hospital '{name}' created at {location}.")
+                else:
+                    print("Name and location cannot be empty.")
 
         elif choice == "2":
-            if not hospital.departments:
-                print("No departments yet. Add a department first.")
+            if not hospital:
+                print("Create a hospital first.")
                 continue
-            for i, d in enumerate(hospital.departments, 1):
-                print(f"{i}. {d.name}")
-            dep_index = int(input("Choose department number: ")) - 1
-            dep = hospital.departments[dep_index]
-            name = input("Staff name: ")
-            age = int(input("Staff age: "))
-            position = input("Position: ")
-            dep.add_staff(Staff(name, age, position))
+            dept_name = input("Enter department name: ").strip()
+            if dept_name:
+                dept = Department(dept_name)
+                hospital.add_department(dept)
+            else:
+                print("Department name cannot be empty.")
 
         elif choice == "3":
-            if not hospital.departments:
-                print("No departments yet. Add a department first.")
+            if not hospital:
+                print("Create a hospital first.")
                 continue
-            for i, d in enumerate(hospital.departments, 1):
-                print(f"{i}. {d.name}")
-            dep_index = int(input("Choose department number: ")) - 1
-            dep = hospital.departments[dep_index]
-            name = input("Patient name: ")
-            age = int(input("Patient age: "))
-            medical_record = input("Medical record: ")
-            dep.add_patient(Patient(name, age, medical_record))
+            department = choose_department(hospital)
+            if department:
+                name = input("Enter patient name: ").strip()
+                dob = input_date("Enter date of birth (YYYY-MM-DD): ")
+                if not dob:
+                    continue
+                record = input("Enter medical record: ").strip()
+                if not name or not record:
+                    print("Name and medical record cannot be empty.")
+                    continue
+                patient = Patient(name, dob, record)
+                department.add_patient(patient)
+                print(f"Patient '{name}' added to {department.name}.")
 
         elif choice == "4":
-            patient_name = input("Enter patient name to transfer: ")
-            from_dep_name = input("From department: ")
-            to_dep_name = input("To department: ")
-            from_dep = next((d for d in hospital.departments if d.name == from_dep_name), None)
-            to_dep = next((d for d in hospital.departments if d.name == to_dep_name), None)
-            if from_dep and to_dep:
-                patient = next((p for p in from_dep.patients if p.name == patient_name), None)
-                if patient:
-                    from_dep.patients.remove(patient)
-                    to_dep.add_patient(patient)
-                    print(f"🚨 Patient Transfer: {patient.name} moved to {to_dep.name}")
-                else:
-                    print("Patient not found in the source department.")
-            else:
-                print("Invalid department names.")
+            if not hospital:
+                print("Create a hospital first.")
+                continue
+            department = choose_department(hospital)
+            if department:
+                name = input("Enter staff name: ").strip()
+                dob = input_date("Enter date of birth (YYYY-MM-DD): ")
+                if not dob:
+                    continue
+                position = input("Enter position: ").strip()
+                if not name or not position:
+                    print("Name and position cannot be empty.")
+                    continue
+                staff_member = Staff(name, dob, position)
+                department.add_staff(staff_member)
+                print(f"Staff '{name}' added to {department.name}.")
 
         elif choice == "5":
-            print_hospital_summary(hospital)
+            if not hospital:
+                print("Create a hospital first.")
+                continue
+            hospital.view_hospital_info()
+            for dept in hospital.departments:
+                print(f"\nDepartment: {dept.name} | Staff: {len(dept.staff)} | Patients: {len(dept.patients)}")
+                if dept.patients:
+                    print("Patients:")
+                    for p in dept.patients:
+                        print(f"  - {p.view_record()}")
+                if dept.staff:
+                    print("Staff:")
+                    for s in dept.staff:
+                        print(f"  - {s.view_info()}")
 
         elif choice == "6":
-            print("Exiting...")
+            if not hospital:
+                print("Create a hospital first.")
+                continue
+            department = choose_department(hospital)
+            if department:
+                print("\n1. Check-in Patient\n2. Check-out Patient\n3. Check-in Staff\n4. Check-out Staff")
+                sub_choice = input("Enter choice: ").strip()
+                if sub_choice == "1":
+                    member = choose_member(department.patients, "Patient")
+                    if member:
+                        print(member.check_in())
+                elif sub_choice == "2":
+                    member = choose_member(department.patients, "Patient")
+                    if member:
+                        print(member.check_out())
+                elif sub_choice == "3":
+                    member = choose_member(department.staff, "Staff")
+                    if member:
+                        print(member.check_in())
+                elif sub_choice == "4":
+                    member = choose_member(department.staff, "Staff")
+                    if member:
+                        print(member.check_out())
+                else:
+                    print("Invalid choice.")
+
+        elif choice == "7":
+            if not hospital:
+                print("Create a hospital first.")
+                continue
+            department = choose_department(hospital)
+            if department and department.staff and department.patients:
+                doctors = [s for s in department.staff if "Dr" in s.name or "doctor" in s.position.lower()]
+                if not doctors:
+                    print("No doctors available.")
+                    continue
+                doctor = choose_member(doctors, "Doctor")
+                patient = choose_member(department.patients, "Patient")
+                if doctor and patient:
+                    diag = input("Enter diagnosis: ").strip()
+                    treat = input("Enter treatment: ").strip()
+                    if diag:
+                        print(doctor.diagnose_patient(patient, diag))
+                    if treat:
+                        print(doctor.prescribe_treatment(patient, treat))
+                    if diag or treat:
+                        patient.medical_record += f" | Diagnosis: {diag}, Treatment: {treat}"
+
+        elif choice == "8":
+            print("Exiting the system. Goodbye!")
             break
 
         else:
-            print("Invalid choice. Try again.")
+            print("Invalid choice. Enter a number between 1 and 8.")
 
-def print_hospital_summary(hospital):
-    """Print full hospital summary."""
-    print(f"\n📊 Hospital Summary: {hospital.name}")
-    print(f"Location: {hospital.location}")
-    total_staff = sum(len(d.staff) for d in hospital.departments)
-    total_patients = sum(len(d.patients) for d in hospital.departments)
-    print(f"Total Departments: {len(hospital.departments)}")
-    print(f"Total Staff: {total_staff}")
-    print(f"Total Patients: {total_patients}\n")
-
-    for dept in hospital.departments:
-        print(f"🩺 Department: {dept.name}")
-        print(f"  Staff ({len(dept.staff)}):")
-        for s in dept.staff:
-            print(f"    - {s.name}, {s.position}, Age: {s.age}")
-        print(f"  Patients ({len(dept.patients)}):")
-        for p in dept.patients:
-            print(f"    - {p.name}, Age: {p.age}")
-            print(f"      Medical Record: {p.medical_record}")
-        print("-" * 50)
 
 if __name__ == "__main__":
     main()
